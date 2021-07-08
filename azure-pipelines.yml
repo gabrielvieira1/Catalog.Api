@@ -23,11 +23,11 @@ variables:
 
 
 stages:
-- stage: Tests
-  displayName: Tests stage
+- stage: Build
+  displayName: Build stage
   jobs:
-  - job: Tests
-    displayName: Testes da API REST
+  - job: Build
+    displayName: Build
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -37,33 +37,19 @@ stages:
           version: '5.0.x'
           includePreviewVersions: true
       - script: dotnet --list-sdks
-      - task: DotNetCoreCLI@2
+      - task: Docker@2
+        displayName: Build and push an image to container registry
         inputs:
-          command: 'test'
-          projects: '**/Catalog.UnitTests/Catalog.UnitTests.csproj'
-          arguments: 'Testes da API REST'
+          containerRegistry: '$(dockerRegistryServiceConnection)'
+          repository: '$(imageRepository)'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            $(tag)
+            latest
 
-- stage: Build
-  displayName: Build stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        containerRegistry: '$(dockerRegistryServiceConnection)'
-        repository: '$(imageRepository)'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: |
-          $(tag)
-          latest
-
-    - upload: manifests
-      artifact: manifests
+      - upload: manifests
+        artifact: manifests
 
 - stage: Deploy
   displayName: Deploy stage
