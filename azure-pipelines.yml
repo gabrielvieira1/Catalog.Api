@@ -31,10 +31,16 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '5.0.x'
+          includePreviewVersions: true
+      - script: dotnet --list-sdks
       - task: DotNetCoreCLI@2
         inputs:
           command: 'test'
-          projects: '**/Catalog.UnitTests/ItemsControllerTests.cs'
+          projects: '**/Catalog.UnitTests/Catalog.UnitTests.csproj'
           arguments: 'Testes da API REST'
 
 - stage: Build
