@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: catalog-deployment
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: catalog
