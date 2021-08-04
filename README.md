@@ -1,5 +1,5 @@
 # Catalog API
-REST API built end-to-end from scratch using the latest innovations from .NET 5, Docker, Kubernets, Post and Visual Studio Code. The API will be written in C#.
+REST API built end-to-end from scratch using the latest innovations from .NET 5, Docker, Kubernets, Azure, Post and Visual Studio Code. The API will be written in C#.
 The project was presented by Julio Casal in the video tutorial on FreeCodeCamp's Youtube channel https://www.youtube.com/watch?v=ZXdFisA_hOY
 
 ## 🚀 Technologies
